@@ -1,11 +1,13 @@
 import express from "express";
 import cors from "cors";
 import categoriesRouter from "./routes/categories.routes.js";
+import gamesRouter from "./routes/games.routes.js";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(categoriesRouter);
+app.use(gamesRouter);
 
 const port = process.env.PORT || 4000;
 

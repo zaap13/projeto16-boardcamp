@@ -4,7 +4,10 @@ export async function postCategory(req, res) {
   const { name } = req.body;
   try {
     const result = await connection.query(
-      "INSERT INTO categories (name) VALUES ($1)",
+      `INSERT INTO categories 
+       (name) 
+      VALUES 
+       ($1)`,
       [name]
     );
 
@@ -17,7 +20,7 @@ export async function postCategory(req, res) {
 
 export async function getCategories(req, res) {
   try {
-    const categories = await connection.query("SELECT * FROM categories");
+    const categories = await connection.query(`SELECT * FROM categories`);
     res.send(categories.rows);
   } catch (err) {
     console.log(err);
