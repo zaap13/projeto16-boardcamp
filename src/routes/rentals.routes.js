@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { rentalMiddleware } from "../middlewares/rentals.middleware";
+import { rentalMiddleware } from "../middlewares/rentals.middleware.js";
 
 const router = Router();
 

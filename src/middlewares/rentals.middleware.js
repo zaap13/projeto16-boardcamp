@@ -1,4 +1,4 @@
-import { rentalSchema } from "../models/rentals.model";
+import { rentalSchema } from "../models/rentals.model.js";
 
 export function rentalMiddleware(req, res, next) {
   const { error } = rentalSchema.validate(req.body, { abortEarly: false });
