@@ -18,7 +18,7 @@ export async function postCustomer(req, res) {
        ($1, $2, $3, $4)`,
       [name, phone, cpf, birthday]
     );
-
+  
     res.sendStatus(201);
   } catch (err) {
     console.log(err);
