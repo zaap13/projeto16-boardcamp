@@ -61,8 +61,6 @@ export async function postRent(req, res) {
 export async function getRentals(req, res) {
   const { customerId, gameId } = req.query;
 
-  console.log(customerId, gameId);
-
   try {
     if (customerId) {
       const rentals = await connection.query(
@@ -168,7 +166,8 @@ export async function returnRent(req, res) {
 
     if (late) {
       const delay = returnDate.getDate() - date.getDate();
-      const delayFee = delay * rental.rows[0].originalPrice;
+      const delayFee =
+        delay * (rental.rows[0].originalPrice / rental.rows[0].daysRented);
       await connection.query(
         `UPDATE rentals 
             SET
