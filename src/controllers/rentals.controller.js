@@ -144,3 +144,54 @@ export async function getRentals(req, res) {
     res.sendStatus(500);
   }
 }
+
+export async function returnRent(req, res) {
+  const { id } = req.params;
+
+  try {
+    const rental = await connection.query(
+      `SELECT * FROM rentals WHERE (rentals.id = '${id}')`
+    );
+    if (!rental.rows[0]) {
+      return res.sendStatus(404);
+    } else if (rental.rows[0].returnDate !== null) {
+      return res.status(400).send("Aluguel já finalizado");
+    }
+    let returnDate = new Date();
+
+    returnDate.setDate(
+      rental.rows[0].rentDate.getDate() + rental.rows[0].daysRented
+    );
+
+    const date = new Date(Date.now());
+    const late = returnDate.getDate() > date.getDate();
+
+    if (late) {
+      const delay = returnDate.getDate() - date.getDate();
+      const delayFee = delay * rental.rows[0].originalPrice;
+      await connection.query(
+        `UPDATE rentals 
+            SET
+            "returnDate"='${dayjs(Date.now()).format("YYYY-MM-DD")}',
+            "delayFee"='${delayFee}'
+            WHERE
+            id = ${id}
+            `
+      );
+      return res.sendStatus(200);
+    }
+    await connection.query(
+      `UPDATE rentals 
+          SET
+          "returnDate"='${dayjs(Date.now()).format("YYYY-MM-DD")}'
+          WHERE
+          id = ${id}
+          `
+    );
+
+    res.sendStatus(200);
+  } catch (err) {
+    console.log(err);
+    return res.sendStatus(500);
+  }
+}
