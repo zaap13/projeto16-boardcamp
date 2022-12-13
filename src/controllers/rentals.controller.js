@@ -195,3 +195,25 @@ export async function returnRent(req, res) {
     return res.sendStatus(500);
   }
 }
+
+export async function deleteRent(req, res) {
+  const { id } = req.params;
+
+  try {
+    const rental = await connection.query(
+      `SELECT * FROM rentals WHERE (rentals.id = '${id}')`
+    );
+    if (!rental.rows[0]) {
+      return res.sendStatus(404);
+    } else if (rental.rows[0].returnDate === null) {
+      return res.status(400).send("Aluguel ainda não finalizado");
+    }
+
+    await connection.query(`DELETE FROM rentals WHERE id = '${id}'`);
+
+    res.sendStatus(200);
+  } catch (err) {
+    console.log(err);
+    return res.sendStatus(500);
+  }
+}

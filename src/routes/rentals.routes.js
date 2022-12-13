@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  deleteRent,
   getRentals,
   postRent,
   returnRent,
@@ -8,12 +9,12 @@ import { rentalMiddleware } from "../middlewares/rentals.middleware.js";
 
 const router = Router();
 
-router.get("/rentals", getRentals); //implement
+router.get("/rentals", getRentals);
 
-router.post("/rentals", rentalMiddleware, postRent); //implement
+router.post("/rentals", rentalMiddleware, postRent);
 
-router.post("/rentals/:id/return", returnRent); //implement
+router.post("/rentals/:id/return", returnRent);
 
-router.delete("/rentals/:id"); //implement
+router.delete("/rentals/:id", deleteRent);
 
 export default router;
