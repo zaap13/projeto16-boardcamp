@@ -18,7 +18,7 @@ export async function postCustomer(req, res) {
        ($1, $2, $3, $4)`,
       [name, phone, cpf, birthday]
     );
-  
+
     res.sendStatus(201);
   } catch (err) {
     console.log(err);
@@ -32,7 +32,7 @@ export async function putCustomer(req, res) {
   //UPDATE usuarios SET senha='010101', email='fulano3@gmail.com' WHERE id = 2;
 
   try {
-    const result = await connection.query(
+    await connection.query(
       `UPDATE customers 
           SET
           name='${name}',
